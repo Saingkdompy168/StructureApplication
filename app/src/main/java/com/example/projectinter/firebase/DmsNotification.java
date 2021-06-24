@@ -31,7 +31,7 @@ public abstract class DmsNotification {
     private String channelId = "DMS_NOTIFICATION_ID";
 
     public static String getPackage() {
-        return "com.chipmong.dms.firebase";
+        return "com.exmaple.projectinter.firebase";
     }
 
     public Context getContext() {
