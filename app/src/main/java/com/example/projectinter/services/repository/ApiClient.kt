@@ -2,8 +2,10 @@ package com.chipmong.dms.services.repository
 
 import android.os.Build
 import com.chipmong.dms.utils.ServerConfig
+import com.example.projectinter.BuildConfig
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -63,12 +65,12 @@ object ApiClient {
 
         httpClient.hostnameVerifier { hostname, session -> true }
 
-//        if (BuildConfig.DEBUG) {
-//            val interceptor = HttpLoggingInterceptor()
-//            interceptor.level = HttpLoggingInterceptor.Level.BODY
-//
-//            httpClient.addInterceptor(interceptor)
-//        }
+        if (BuildConfig.DEBUG) {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            httpClient.addInterceptor(interceptor)
+        }
 
 
         httpClient.addInterceptor { chain ->
@@ -80,7 +82,7 @@ object ApiClient {
                 .addHeader("Request-Type", "Android")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("connection", "keep-alive")
-//                .addHeader("x-app-version", BuildConfig.VERSION_NAME)
+                .addHeader("x-app-version", BuildConfig.VERSION_NAME)
                 .addHeader("x-os-version", "${Build.VERSION.SDK_INT}")
                 .addHeader("x-timezone", TimeZone.getDefault().id)
                 .addHeader("x-platform" , "ANDROID")
