@@ -55,7 +55,7 @@ android {
             buildConfigField 'String', 'CLIENT_ID', '"123456789987654321"'
             buildConfigField 'String', 'CLIENT_SECRET', '"987654321123456789"'
 
-            resValue "string", 'app_name', '"Dev"'
+            resValue "string", 'app_name', '"InterDev"'
             addConstantTo(owner, "PROVIDER", "com.example.projectinter.dev.fileprovider")
             versionCode = 3
             versionName = '1'
