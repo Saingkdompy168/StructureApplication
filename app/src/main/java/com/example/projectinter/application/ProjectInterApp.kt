@@ -10,24 +10,30 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 
 
-
 class ProjectInterApp : Application() {
-    companion object{
+    companion object {
 
     }
+
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
 
         //Configuration realm database
-        val realmConfiguration = RealmConfiguration.Builder().schemaVersion(1).
-        name(Constants.DEFAULT_DATABASE_NAME).build()
+        val realmConfiguration =
+            RealmConfiguration.Builder().schemaVersion(1).name(Constants.DEFAULT_DATABASE_NAME)
+                .build()
         Realm.setDefaultConfiguration(realmConfiguration)
 
         val builder = VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
         builder.detectFileUriExposure()
 
-        ApiClient.initOkHttp(DmsUtils.getAndroidId(this))
+        try {
+//            ApiClient.initOkHttp(DmsUtils.getAndroidId(this))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 }

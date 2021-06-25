@@ -20,8 +20,7 @@ import com.chipmong.dms.services.repository.RequestRestApiManager
 import com.chipmong.dms.socket.SocketClient
 import com.chipmong.dms.utils.InternetDetectAsync
 import com.example.projectinter.R
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
+import com.example.projectinter.extensions.showSnackBar
 import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_base.*
@@ -61,12 +60,12 @@ abstract class BaseActivity : AppCompatActivity(), SocketClient.OnSocketClientCa
             }
 
             override fun onUnavailable() {
-//                showSnackBar(base_activity_root, getString(R.string.title_internet_unavailable))
+                showSnackBar(base_activity_root, "Please check your connnection and try agin...!")
                 onInternetUnAvailable()
             }
 
             override fun onLost(network: Network) {
-//                showSnackBar(base_activity_root, getString(R.string.title_internet_lost))
+                showSnackBar(base_activity_root, "Internet lost...!")
             }
         }
 
