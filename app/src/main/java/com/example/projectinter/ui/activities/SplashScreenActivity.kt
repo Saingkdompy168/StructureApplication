@@ -15,6 +15,7 @@ class SplashScreenActivity : BaseActivity() {
         super.initView()
         Handler(Looper.getMainLooper()).postDelayed({
             MainActivity.launch(this)
+
         }, 1500)
     }
 
