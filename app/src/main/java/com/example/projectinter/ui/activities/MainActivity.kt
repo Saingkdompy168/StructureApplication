@@ -3,13 +3,21 @@ package com.example.projectinter.ui.activities
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
+import androidx.datastore.core.DataStore
+import androidx.lifecycle.lifecycleScope
 import com.chipmong.dms.ui.activities.BaseActivity
 import com.chipmong.dms.utils.InternetDetectAsync
 import com.example.projectinter.R
 import com.example.projectinter.extensions.showErrorDialog
+import com.example.projectinter.utils.JetPackDataStore
+import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
-    override fun isShowHeader(): Boolean =false
+
+    private var jetPackDataStore: JetPackDataStore? = null
+
+    override fun isShowHeader(): Boolean = false
 
     override fun isDarkStatus(): Boolean = false
 
@@ -17,19 +25,13 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        InternetDetectAsync {
-            it?.let {
-                hideProgressLoading()
-                if (it) {
-//                    showErrorDialog("onnection")
-                } else {
-                    showErrorDialog("please_check_your_connection")
-                }
-
-            }
-        }.execute()
+        jetPackDataStore = JetPackDataStore(this)
+        Toast.makeText(
+            this,
+            "setting Data Store" + jetPackDataStore?.exampleConterFlow,
+            Toast.LENGTH_SHORT
+        ).show()
     }
-
 
     companion object {
         fun launch(context: Context) {
