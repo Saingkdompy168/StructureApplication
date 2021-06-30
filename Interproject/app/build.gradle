@@ -62,6 +62,26 @@ android {
             versionNameSuffix = '.2'
         }
 
+        InterStaging {
+            dimension 'version'
+            applicationId 'com.example.projectinter'
+            applicationIdSuffix '.staging'
+
+
+            //Staging
+            buildConfigField 'String', 'BASE_URL', '"https://dms-staging-api.pathmazing.com"'
+            buildConfigField 'String', 'BASE_URL_IMAGE', '"https://dms-staging-api.pathmazing.com"'
+            buildConfigField 'String', 'CLIENT_ID', '"987654321"'
+            buildConfigField 'String', 'CLIENT_SECRET', '"123456789"'
+
+            resValue "string", 'app_name', '"InterDev Staging"'
+            addConstantTo(owner, "PROVIDER", "com.chipmong.dms.staging.fileprovider")
+
+            versionCode 10
+            versionName '1'
+            versionNameSuffix '.1.28'
+        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

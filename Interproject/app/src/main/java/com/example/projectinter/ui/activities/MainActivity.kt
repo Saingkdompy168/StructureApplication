@@ -4,14 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import androidx.datastore.core.DataStore
-import androidx.lifecycle.lifecycleScope
 import com.chipmong.dms.ui.activities.BaseActivity
-import com.chipmong.dms.utils.InternetDetectAsync
 import com.example.projectinter.R
-import com.example.projectinter.extensions.showErrorDialog
 import com.example.projectinter.utils.JetPackDataStore
-import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
 
@@ -32,6 +27,7 @@ class MainActivity : BaseActivity() {
             Toast.LENGTH_SHORT
         ).show()
     }
+
 
     companion object {
         fun launch(context: Context) {

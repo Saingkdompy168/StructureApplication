@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.map
 
 class JetPackDataStore(var context: Context) {
 
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-    val EXAMPLE_COUNTER = intPreferencesKey("example_counter")
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    private val EXAMPLE_COUNTER = intPreferencesKey("example_counter")
 
 //    val exampleCounterFlow: Flow<Int> = context.dataStore.data
 //        .map { preferences ->

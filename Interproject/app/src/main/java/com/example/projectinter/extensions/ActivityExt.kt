@@ -32,6 +32,10 @@ import com.example.projectinter.R
 import com.example.projectinter.ui.dialog.CustomAlertDialog
 import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -460,6 +464,18 @@ fun Activity.goToSettings() {
         Uri.fromParts("package", packageName, null)
     intent.data = uri
     startActivityForResult(intent, 0)
+}
+
+fun <R> CoroutineScope.executeAsyncTask(
+    onPreExecute: () -> Unit,
+    doInBackground: () -> R,
+    onPostExecute: (R) -> Unit
+) = launch {
+    onPreExecute() // runs in Main Thread
+    val result = withContext(Dispatchers.IO) {
+        doInBackground() // runs in background thread without blocking the Main Thread
+    }
+    onPostExecute(result) // runs in Main Thread
 }
 
 
