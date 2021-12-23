@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.IntruderShanky:Sectioned-RecyclerView:2.1.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1db6e8330bd65776d7b8f1acbad50d4c/jetified-Sectioned-RecyclerView-2.1.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1db6e8330bd65776d7b8f1acbad50d4c/jetified-Sectioned-RecyclerView-2.1.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1db6e8330bd65776d7b8f1acbad50d4c/jetified-Sectioned-RecyclerView-2.1.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba9b669f86d99a01b5e02f388f77734b/jetified-Sectioned-RecyclerView-2.1.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba9b669f86d99a01b5e02f388f77734b/jetified-Sectioned-RecyclerView-2.1.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba9b669f86d99a01b5e02f388f77734b/jetified-Sectioned-RecyclerView-2.1.1/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.IntruderShanky/Sectioned-RecyclerView/2.1.1/52aa42a40b76ef24cd60fa5e943d09e5135a28f9/Sectioned-RecyclerView-2.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

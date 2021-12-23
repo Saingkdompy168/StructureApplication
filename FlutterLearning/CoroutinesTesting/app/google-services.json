@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "615068886758",
+    "project_id": "coroutinestesting",
+    "storage_bucket": "coroutinestesting.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615068886758:android:d1d458470be65bbee83d27",
+        "android_client_info": {
+          "package_name": "com.example.coroutinestesting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615068886758-1b02f36q9v90lcdaj46995vsiqso0hf8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-joM4HdyE93qhdOMGIP-LiVOPWxlOuZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615068886758-1b02f36q9v90lcdaj46995vsiqso0hf8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

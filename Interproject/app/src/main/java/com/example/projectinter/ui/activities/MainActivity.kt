@@ -4,11 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import com.chipmong.dms.ui.activities.BaseActivity
+import com.chipmong.dms.adapter.BaseRecyclerAdapter
+import com.chipmong.dms.ui.activities.BaseListActivity
 import com.example.projectinter.R
+import com.example.projectinter.adapter.UnSelectedAdapter
+import com.example.projectinter.models.UnSelectedModel
 import com.example.projectinter.utils.JetPackDataStore
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseListActivity<UnSelectedModel>() {
 
     private var jetPackDataStore: JetPackDataStore? = null
 
@@ -18,14 +21,23 @@ class MainActivity : BaseActivity() {
 
     override fun layoutContainerRes(): Int = R.layout.activity_main
 
+    override fun adapter(): BaseRecyclerAdapter<UnSelectedModel> = UnSelectedAdapter(mData)
+
     override fun initView() {
         super.initView()
+        addItem()
         jetPackDataStore = JetPackDataStore(this)
         Toast.makeText(
             this,
             "setting Data Store" + jetPackDataStore?.exampleConterFlow,
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    private fun addItem() {
+        mData.add(UnSelectedModel().apply {
+            title = "Data1"
+        })
     }
 
 
@@ -35,4 +47,6 @@ class MainActivity : BaseActivity() {
             (context as Activity).finish()
         }
     }
+
+
 }

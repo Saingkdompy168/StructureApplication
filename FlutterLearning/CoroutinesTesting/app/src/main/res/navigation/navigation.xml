@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/enterDetailFragment">
+
+
+    <fragment
+        android:id="@+id/enterDetailFragment"
+        android:name="com.example.coroutinestesting.fragment.EnterDetailFragment"
+        android:label="fragment_enter_detail"
+        tools:layout="@layout/fragment_enter_detail">
+        <action
+            android:id="@+id/action_enterDetailFragment_to_verifyDetailFragment"
+            app:destination="@id/verifyDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyDetailFragment"
+        android:name="com.example.coroutinestesting.fragment.VerifyDetailFragment"
+        android:label="fragment_verify_detail"
+        tools:layout="@layout/fragment_verify_detail">
+
+<!--        <argument-->
+<!--            android:name="name"-->
+<!--            android:defaultValue='""'-->
+<!--            app:argType="string" />-->
+
+<!--        <argument-->
+<!--            android:name="pass"-->
+<!--            android:defaultValue='""'-->
+<!--            app:argType="string" />-->
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+</navigation>
