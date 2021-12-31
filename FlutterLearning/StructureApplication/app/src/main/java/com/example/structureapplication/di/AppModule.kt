@@ -1,10 +1,12 @@
 package com.example.structureapplication.di
 
+import android.app.Application
 import android.os.Build
+import androidx.room.Room
 import com.example.structureapplication.BuildConfig
-import com.example.structureapplication.api.ApiHelper
-import com.example.structureapplication.api.ApiHelperImpl
 import com.example.structureapplication.api.ApiService
+import com.example.structureapplication.localroom.database.AppDatabase
+import com.example.structureapplication.localroom.repository.MovieRepository
 import com.example.structureapplication.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -23,21 +25,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    private const val TIME_OUT: Long = 60
-
-    //    private const val TIME_OUT_CONNECT: Long = 60
-    private const val TIME_OUT_CONNECT: Long = 30
-
     @Provides
     fun provideBaseUrl() = Constants.BASE_URL
 
-//    @Singleton
-//    @Provides
-//    fun provideOkHttpClient(): HttpLoggingInterceptor =  if (BuildConfig.DEBUG) {
-//         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-
-
+    @Singleton
     @Provides
     fun providesLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
@@ -60,7 +51,7 @@ object AppModule {
                 .addHeader("x-os-version", "${Build.VERSION.SDK_INT}")
                 .addHeader("x-timezone", TimeZone.getDefault().id)
                 .addHeader("x-platform", "ANDROID")
-                .addHeader("x-udid" , "def4831ed735437f")
+                .addHeader("x-udid", "def4831ed735437f")
             val request: Request = requestBuilder.build()
             chain.proceed(request)
         }
@@ -92,10 +83,28 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+//    @Provides
+//    @Singleton
+//    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper = apiHelper
 
     @Provides
     @Singleton
-    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper = apiHelper
+    fun provideRoomDatabase(app: Application): AppDatabase {
+        return Room.databaseBuilder(
+            app,
+            AppDatabase::class.java,
+            "movie_db"
+        ).fallbackToDestructiveMigration().build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideTodoRepository(db: AppDatabase): MovieRepository {
+        return MovieRepository(db.dao)
+    }
+
 
 }
