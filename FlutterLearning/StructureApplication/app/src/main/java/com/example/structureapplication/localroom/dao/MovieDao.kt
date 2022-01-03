@@ -14,9 +14,12 @@ interface MovieDao {
     suspend fun insertMovie(movie: MovieEntity)
 
     @Query("SELECT * FROM movie")
-     fun getMovie(): LiveData<List<MovieEntity>>
+    fun getMovie(): LiveData<List<MovieEntity>>
 
     @Query("DELETE FROM movie")
     suspend fun deleteAllMovie()
+
+//    @Query("SELECT * FROM movie")
+//    suspend fun getMovieAll(): LiveData<List<MovieEntity>>
 
 }

@@ -11,6 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 
 @HiltViewModel
@@ -18,18 +20,15 @@ class UserViewModel @Inject constructor(
     private var userRepository: UserRepository,
     private var movieRepository: MovieRepository
 ) : ViewModel() {
-    private val _userResponse = MutableLiveData<Resource<UserResponse>>()
+    private val _userResponse = MutableStateFlow<Resource<UserResponse>>(Resource.Loading())
 
-    val userResponse = _userResponse.switchMap {
-        liveData { emit(it) }
-    }.toSingleEvent()
+    val userResponse: StateFlow<Resource<UserResponse>>
+        get() = _userResponse
 
-    private val localData = movieRepository.getAllMovie()
+    private val _localData = movieRepository.getAllMovie()
 
     fun getNotesLiveData(): LiveData<List<MovieEntity>> {
-        return localData.switchMap {
-            liveData { emit(it) }
-        }.toSingleEvent()
+        return _localData
     }
 
 //    fun getNotesLiveData(): LiveData<List<MovieEntity>> {
@@ -56,16 +55,16 @@ class UserViewModel @Inject constructor(
 
 
     fun getUser(id: Int) = viewModelScope.launch {
-        _userResponse.postValue(Resource.Loading())
+        _userResponse.emit(Resource.Loading())
 //        movieRepository.deleteAllMovie()
         userRepository.getUser(id).let {
             if (it.isSuccessful) {
                 it.body()?.let { resultResponse ->
-                    _userResponse.postValue(Resource.Success(resultResponse))
-                    movieRepository.insertMovie(resultResponse.mapModel())
+                    _userResponse.emit(Resource.Success(resultResponse))
+//                    movieRepository.insertMovie(resultResponse.mapModel())
                 }
             } else {
-                _userResponse.postValue(Resource.Error(it.errorBody().toString(), null))
+                _userResponse.emit(Resource.Error(it.errorBody().toString(), null))
             }
         }
     }
