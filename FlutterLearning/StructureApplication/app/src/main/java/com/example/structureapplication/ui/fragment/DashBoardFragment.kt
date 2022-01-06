@@ -58,7 +58,7 @@ class DashBoardFragment :
                     )
                     val tv = TextView(requireContext())
                     tv.layoutParams = lparams
-                    tv.text = item.email
+                    tv.text = item.email + " - " + item.phone
                     binding.layoutDraw.addView(tv)
                 }
                 Log.d("localData", Gson().toJson(it))

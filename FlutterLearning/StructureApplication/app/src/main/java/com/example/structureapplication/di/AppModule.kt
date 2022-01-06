@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.room.Room
 import com.example.structureapplication.BuildConfig
 import com.example.structureapplication.api.ApiService
+import com.example.structureapplication.extension.MIGRATION_2_3
 import com.example.structureapplication.localroom.database.AppDatabase
 import com.example.structureapplication.localroom.repository.MovieRepository
 import com.example.structureapplication.util.Constants
@@ -96,7 +97,7 @@ object AppModule {
             app,
             AppDatabase::class.java,
             "movie_db"
-        ).fallbackToDestructiveMigration().build()
+        ) .allowMainThreadQueries().addMigrations(MIGRATION_2_3).build()
     }
 
 

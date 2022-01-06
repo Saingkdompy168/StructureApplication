@@ -6,10 +6,12 @@ class UserResponse {
     var id = 0
     var name = ""
     var email = ""
+    var phone = ""
     fun mapModel(): MovieEntity {
         return MovieEntity().apply {
             this.email = this@UserResponse.email
             this.name = this@UserResponse.name
+            this.phone = this@UserResponse.phone
         }
     }
 }
