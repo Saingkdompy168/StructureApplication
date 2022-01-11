@@ -18,5 +18,29 @@
         android:layout_gravity="center"
         android:text="Hello world" />
 
+    <TextView
+        android:id="@+id/root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="10dp"
+        android:text="Hello world" />
+
+    <Button
+        android:id="@+id/button_count"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center|top"
+        android:text="Count" />
+
+    <TextView
+        android:id="@+id/text_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
+        android:text="0" />
+
 
 </FrameLayout>

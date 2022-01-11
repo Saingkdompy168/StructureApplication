@@ -13,6 +13,7 @@ import javax.inject.Inject
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 
 @HiltViewModel
@@ -30,6 +31,7 @@ class UserViewModel @Inject constructor(
     fun getNotesLiveData(): LiveData<List<MovieEntity>> {
         return _localData
     }
+
 
 //    fun getNotesLiveData(): LiveData<List<MovieEntity>> {
 //        return localData
@@ -52,6 +54,17 @@ class UserViewModel @Inject constructor(
 //        val artistList = movieRepository.getAllMovie()
 //        emit(artistList)
 //    }
+
+    private var _countState = MutableStateFlow(0)
+    val countState = _countState.asStateFlow()
+
+    //val countState: StateFlow<Int> get() = _countState
+    fun incrementCount() {
+        println(countState.value)
+        viewModelScope.launch {
+            _countState.value += 1
+        }
+    }
 
 
     fun getUser(id: Int) = viewModelScope.launch {
