@@ -10,9 +10,6 @@ class UserCallback {
     }
 }
 
-
-
-
 interface ConnectionCallBack {
     fun onConnection()
     fun onError()

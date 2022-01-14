@@ -8,6 +8,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.structureapplication.R
+import com.example.structureapplication.adapter.TestingAdapter
 import com.example.structureapplication.databinding.FragmentDashBoardBinding
 import com.example.structureapplication.model.UserResponse
 import com.example.structureapplication.util.Resource
@@ -20,13 +24,15 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DashBoardFragment :
-    BaseBindingFragment<FragmentDashBoardBinding>(FragmentDashBoardBinding::inflate) {
+    BaseFragment<FragmentDashBoardBinding>() {
 
     private val userViewModel: UserViewModel by viewModels()
+    private lateinit var manager: RecyclerView.LayoutManager
     private var count = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         userViewModel.getUser(2)
 
 //        userViewModel.userResponse.observe(viewLifecycleOwner, {
@@ -49,6 +55,14 @@ class DashBoardFragment :
                 this.email = "darkfjdkfjd"
             }).sortedBy(UserResponse::name)
 
+        manager = LinearLayoutManager(requireContext())
+
+        binding.recuyclerView.apply {
+            adapter = TestingAdapter(listData)
+            layoutManager = manager
+        }
+
+
         Log.d("dsfdsfsdfsd", Gson().toJson(listData))
         binding.textCount.text = userViewModel.countState.value.toString()
 
@@ -59,8 +73,6 @@ class DashBoardFragment :
                     binding.textCount.text = it.toString()
                 }
             }
-
-
         }
 
         lifecycleScope.launchWhenStarted {
@@ -99,8 +111,13 @@ class DashBoardFragment :
 
         })
 
-        executeShellCommand("root")
+        executeShellCommand("su")
     }
+
+    override fun getLayoutResourceId(): Int {
+        return R.layout.fragment_dash_board
+    }
+
 
     private fun executeShellCommand(name: String) {
         var process: Process? = null
