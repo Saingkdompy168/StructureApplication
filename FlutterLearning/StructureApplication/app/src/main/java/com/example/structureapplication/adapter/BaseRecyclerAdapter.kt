@@ -11,11 +11,11 @@ import android.widget.Filterable
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.structureapplication.viewholder.RefactorViewHolder
+import com.example.structureapplication.viewholder.BaseViewHolder
 
-abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T : ItemAdapter>(
+abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T>(
     mData: List<T>
-) : RecyclerView.Adapter<RefactorViewHolder<BINDING>>(),
+) : RecyclerView.Adapter<BaseViewHolder<BINDING>>(),
     Filterable {
 
     var onItemClickListener: OnItemClickListener<T>? = null
@@ -38,7 +38,7 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T : ItemAdapter>(
     var onFilterDone: (() -> (Unit))? = null
 
     init {
-        this.mData = mData as ArrayList<T>
+//        this.mData = mData as ArrayList<T>
         this.mDataDisplay = mData
     }
 
@@ -131,17 +131,17 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T : ItemAdapter>(
 
     fun addItemAtFirst(data: T) {
         mData.add(0, data)
-        notifyDataSetChanged()
+        notifyItemChanged(mData.size)
     }
 
     fun addItem(data: T) {
         mData.add(data)
-        notifyDataSetChanged()
+        notifyItemChanged(mData.size)
     }
 
     fun setData(mData: List<T>) {
         this.mData = mData as ArrayList<T>
-        notifyDataSetChanged()
+        notifyItemChanged(mData.size)
     }
 
     fun getItem(): List<T> {
@@ -155,7 +155,7 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T : ItemAdapter>(
     override fun getItemCount() = mDataDisplay.size
 
 
-    override fun onBindViewHolder(holder: RefactorViewHolder<BINDING>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<BINDING>, position: Int) {
         if (holder.isDefaultClick()) {
             holder.itemView.setOnClickListener {
                 onItemClick(it, holder)
@@ -168,10 +168,10 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T : ItemAdapter>(
                 return@setOnLongClickListener true
             }
         }
-        holder.binData(this)
+        holder.bind(holder.binder,this)
     }
 
-    private fun onItemClick(view: View, holder: RefactorViewHolder<BINDING>) {
+    private fun onItemClick(view: View, holder: BaseViewHolder<BINDING>) {
         if (holder.adapterPosition != -1) {
             onItemClickListener?.onItemClick(
                 holder.itemView,
@@ -187,7 +187,7 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T : ItemAdapter>(
 
     }
 
-    override fun onViewRecycled(holder: RefactorViewHolder<BINDING>) {
+    override fun onViewRecycled(holder: BaseViewHolder<BINDING>) {
         super.onViewRecycled(holder)
         holder.onViewRecycler()
     }
@@ -225,31 +225,32 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T : ItemAdapter>(
         recycleView: RecyclerView,
         private val mItemClickListener: OnItemClickListener<T>
     ) : RecyclerView.OnItemTouchListener {
-        private val mGestureDetector: GestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onSingleTapUp(e: MotionEvent): Boolean {
-                return true
-            }
-
-            override fun onLongPress(e: MotionEvent) {
-                val child = recycleView.findChildViewUnder(e.x, e.y)
-                child?.let {
-                    if (recycleView.adapter is BaseRecyclerAdapter<*,*>) {
-                        val baseAdapter = recycleView.adapter as BaseRecyclerAdapter<*,*>
-                        mItemClickListener.onItemLongClick(
-                            recycleView.getChildAdapterPosition(child),
-                            baseAdapter.getItem(recycleView.getChildAdapterPosition(child)) as T
-                        )
-                    }
+        private val mGestureDetector: GestureDetector =
+            GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+                override fun onSingleTapUp(e: MotionEvent): Boolean {
+                    return true
                 }
 
-            }
-        })
+                override fun onLongPress(e: MotionEvent) {
+                    val child = recycleView.findChildViewUnder(e.x, e.y)
+                    child?.let {
+                        if (recycleView.adapter is BaseRecyclerAdapter<*, *>) {
+                            val baseAdapter = recycleView.adapter as BaseRecyclerAdapter<*, *>
+                            mItemClickListener.onItemLongClick(
+                                recycleView.getChildAdapterPosition(child),
+                                baseAdapter.getItem(recycleView.getChildAdapterPosition(child)) as T
+                            )
+                        }
+                    }
+
+                }
+            })
 
         override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
             val child = rv.findChildViewUnder(e.x, e.y)
             child?.let {
-                if (mGestureDetector.onTouchEvent(e) && rv.adapter is BaseRecyclerAdapter<*,*>) {
-                    val baseAdapter = rv.adapter as BaseRecyclerAdapter<*,*>
+                if (mGestureDetector.onTouchEvent(e) && rv.adapter is BaseRecyclerAdapter<*, *>) {
+                    val baseAdapter = rv.adapter as BaseRecyclerAdapter<*, *>
                     mItemClickListener.onItemClick(
                         child,
                         rv.getChildAdapterPosition(child),

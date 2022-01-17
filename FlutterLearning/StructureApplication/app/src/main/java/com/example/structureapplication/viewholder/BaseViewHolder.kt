@@ -2,8 +2,20 @@ package com.example.structureapplication.viewholder
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.example.structureapplication.adapter.BaseRecyclerAdapter
+import com.google.gson.Gson
 
-class BaseViewHolder<BINDING : ViewDataBinding>(var binder: BINDING) :
+abstract class BaseViewHolder<BINDING : ViewDataBinding>(var binder: BINDING) :
     RecyclerView.ViewHolder(binder.root) {
+
+    protected val mGson = Gson()
+
+    open fun isDefaultClick() : Boolean = true
+
+    abstract fun bind(binding: BINDING, adapter: BaseRecyclerAdapter<*, *>)
+
+    open fun onViewRecycler() {
+        itemView.setOnClickListener(null)
+    }
 }
 

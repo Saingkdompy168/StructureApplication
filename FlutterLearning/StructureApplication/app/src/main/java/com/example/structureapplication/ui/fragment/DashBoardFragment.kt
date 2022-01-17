@@ -13,20 +13,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.structureapplication.R
 import com.example.structureapplication.adapter.TestingAdapter
 import com.example.structureapplication.databinding.FragmentDashBoardBinding
+import com.example.structureapplication.extension.ViewModelFactory
 import com.example.structureapplication.model.UserResponse
 import com.example.structureapplication.util.Resource
 import com.example.structureapplication.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashBoardFragment :
     BaseFragment<FragmentDashBoardBinding>() {
 
-    private val userViewModel: UserViewModel by viewModels()
+//    @Inject
+//    lateinit var viewModelFactory: ViewModelFactory
+
+    private val userViewModel: UserViewModel by viewModels ()
     private lateinit var manager: RecyclerView.LayoutManager
     private var count = 0
 

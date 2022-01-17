@@ -1,9 +1,8 @@
 package com.example.structureapplication.model
 
-import com.example.structureapplication.adapter.ItemAdapter
 import com.example.structureapplication.localroom.model.MovieEntity
 
-class UserResponse : ItemAdapter {
+class UserResponse  {
     var name = ""
     var email = ""
     var phone = ""
