@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.structureapplication.R
+import com.example.structureapplication.adapter.BaseRecyclerAdapter
 import com.example.structureapplication.adapter.TestingAdapter
 import com.example.structureapplication.databinding.FragmentDashBoardBinding
 import com.example.structureapplication.extension.ViewModelFactory
@@ -30,12 +31,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashBoardFragment :
-    BaseFragment<FragmentDashBoardBinding>() {
+    BaseFragment<FragmentDashBoardBinding, UserResponse>() {
 
 //    @Inject
 //    lateinit var viewModelFactory: ViewModelFactory
 
-    private val userViewModel: UserViewModel by viewModels ()
+    private val userViewModel: UserViewModel by viewModels()
     private lateinit var manager: RecyclerView.LayoutManager
     private var count = 0
 
@@ -64,13 +65,12 @@ class DashBoardFragment :
                 this.email = "darkfjdkfjd"
             }).sortedBy(UserResponse::name)
 
-        manager = LinearLayoutManager(requireContext())
-
-        binding.recuyclerView.apply {
-            adapter = TestingAdapter(listData)
-            layoutManager = manager
-        }
-
+//        manager = LinearLayoutManager(requireContext())
+        addData()
+//        binding.recuyclerView.apply {
+//            adapter = TestingAdapter(listData)
+//            layoutManager = manager
+//        }
 
         Log.d("dsfdsfsdfsd", Gson().toJson(listData))
         binding.textCount.text = userViewModel.countState.value.toString()
@@ -123,6 +123,20 @@ class DashBoardFragment :
         executeShellCommand("su")
     }
 
+    fun addData() {
+        mData.addAll(
+            listOf(
+                UserResponse().apply {
+                    this.name = "daro"
+                    this.email = "darkfjdkfjd"
+                },
+                UserResponse().apply {
+                    this.name = "dara"
+                    this.email = "darkfjdkfjd"
+                }).sortedBy(UserResponse::name)
+        )
+    }
+
     override fun getLayoutResourceId(): Int {
         return R.layout.fragment_dash_board
     }
@@ -145,5 +159,11 @@ class DashBoardFragment :
                 }
             }
         }
+    }
+
+    override fun layoutManager(): RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
+
+    override fun adapter(): BaseRecyclerAdapter<*, UserResponse> {
+        return TestingAdapter(mData)
     }
 }
