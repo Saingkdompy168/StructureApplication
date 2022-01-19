@@ -14,31 +14,25 @@ import com.example.structureapplication.R
 import com.example.structureapplication.adapter.BaseRecyclerAdapter
 import com.example.structureapplication.adapter.TestingAdapter
 import com.example.structureapplication.databinding.FragmentDashBoardBinding
-import com.example.structureapplication.extension.ViewModelFactory
 import com.example.structureapplication.model.UserResponse
 import com.example.structureapplication.util.Resource
 import com.example.structureapplication.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashBoardFragment :
     BaseFragment<FragmentDashBoardBinding, UserResponse>() {
 
 //    @Inject
-//    lateinit var viewModelFactory: ViewModelFactory
+//    lateinit var viewModelFactory: ViewModelByDaggerFactory<UserViewModel>
 
     private val userViewModel: UserViewModel by viewModels()
-    private lateinit var manager: RecyclerView.LayoutManager
-    private var count = 0
+
+//    private val userViewModel: UserViewModel by viewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,9 +58,7 @@ class DashBoardFragment :
                 this.name = "dara"
                 this.email = "darkfjdkfjd"
             }).sortedBy(UserResponse::name)
-
-//        manager = LinearLayoutManager(requireContext())
-        addData()
+        mData.addAll(listData)
 //        binding.recuyclerView.apply {
 //            adapter = TestingAdapter(listData)
 //            layoutManager = manager
@@ -123,20 +115,6 @@ class DashBoardFragment :
         executeShellCommand("su")
     }
 
-    fun addData() {
-        mData.addAll(
-            listOf(
-                UserResponse().apply {
-                    this.name = "daro"
-                    this.email = "darkfjdkfjd"
-                },
-                UserResponse().apply {
-                    this.name = "dara"
-                    this.email = "darkfjdkfjd"
-                }).sortedBy(UserResponse::name)
-        )
-    }
-
     override fun getLayoutResourceId(): Int {
         return R.layout.fragment_dash_board
     }
@@ -165,5 +143,10 @@ class DashBoardFragment :
 
     override fun adapter(): BaseRecyclerAdapter<*, UserResponse> {
         return TestingAdapter(mData)
+    }
+
+    override fun onItemClick(v: View, position: Int, data: UserResponse) {
+        super.onItemClick(v, position, data)
+        Log.d("dfsdfsdfdsfd", data.name)
     }
 }

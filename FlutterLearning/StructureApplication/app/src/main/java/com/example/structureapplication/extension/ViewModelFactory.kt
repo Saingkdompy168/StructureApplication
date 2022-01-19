@@ -2,13 +2,10 @@ package com.example.structureapplication.extension
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import dagger.Provides
 import javax.inject.Inject
 import javax.inject.Provider
-import javax.inject.Singleton
 
 
-@Singleton
 class ViewModelFactory @Inject constructor(
     private val creators: MutableMap<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {

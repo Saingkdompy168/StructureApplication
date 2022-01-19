@@ -1,6 +1,8 @@
 package com.example.structureapplication.ui.fragment
 
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +14,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.structureapplication.R
 import com.example.structureapplication.adapter.BaseRecyclerAdapter
+import com.example.structureapplication.util.InternetBroadcastReceiver
 
-abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(), ViewContract<DB>,
-    BaseRecyclerAdapter.OnItemClickListener<T> {
+abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(),
+    BaseRecyclerAdapter.OnItemClickListener<T>,
+    InternetBroadcastReceiver.OnInternetConnectionChangeListener {
 
     private var isRegistered = false
-
+    private var intentFilter: IntentFilter? = null
+    private var receiver: InternetBroadcastReceiver? = null
     protected var mRecyclerView: RecyclerView? = null
     protected var mData = ArrayList<T>()
     protected var mLayoutManager: RecyclerView.LayoutManager? = null
@@ -25,6 +30,8 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(), ViewContract<
     protected var isInit: Boolean = false
     protected var offset = 0
     protected var mItemDecoration: RecyclerView.ItemDecoration? = null
+
+    private var isInternetConnected = true
 
     abstract fun layoutManager(): RecyclerView.LayoutManager
     abstract fun adapter(): BaseRecyclerAdapter<*, T>
@@ -113,7 +120,6 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(), ViewContract<
             _binding =
                 DataBindingUtil.inflate(inflater, getLayoutResourceId(), container, false)
             binding.setLifecycleOwner { lifecycle }
-            onBindData(binding)
             return binding.root
         } else {
             throw IllegalArgumentException("layout resource cannot be null")
@@ -126,6 +132,12 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(), ViewContract<
 //            kotlinBus.register(this)
             isRegistered = true
         }
+        requireActivity().registerReceiver(receiver, intentFilter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().unregisterReceiver(receiver)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,6 +147,11 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(), ViewContract<
         onInitLiveData()
         initRecyclerView()
         initEventListener()
+
+        intentFilter = IntentFilter()
+        intentFilter?.addAction(InternetBroadcastReceiver.CONNECTIVITY_ACTION)
+        receiver = InternetBroadcastReceiver()
+        receiver?.setOnInternetConnectionChangeListener(this)
     }
 
     open fun initView() {
@@ -156,14 +173,25 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(), ViewContract<
         }
     }
 
+    override fun onDisconnected() {
+        isInternetConnected = false
+        Log.d("internet", "internet not connected")
+    }
 
-    override fun onBindData(binding: DB) {
+    override fun onConnected() {
+        if (!isInternetConnected) {
+
+            isInternetConnected = true
+            Log.d("internet", "internet connected")
+        }
 
     }
 
+    abstract fun getLayoutResourceId(): Int
+
 }
 
-interface ViewContract<DB> {
-    fun getLayoutResourceId(): Int
-    fun onBindData(binding: DB)
-}
+//interface ViewContract<DB> {
+//    fun getLayoutResourceId(): Int
+//    fun onBindData(binding: DB)
+//}

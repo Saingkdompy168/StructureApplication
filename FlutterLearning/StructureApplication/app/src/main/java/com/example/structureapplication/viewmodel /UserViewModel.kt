@@ -1,19 +1,19 @@
 package com.example.structureapplication.viewmodel
 
-import androidx.lifecycle.*
-import com.example.structureapplication.extension.toSingleEvent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.structureapplication.localroom.model.MovieEntity
 import com.example.structureapplication.localroom.repository.MovieRepository
 import com.example.structureapplication.model.UserResponse
 import com.example.structureapplication.repository.UserRepository
 import com.example.structureapplication.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import javax.inject.Inject
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @HiltViewModel
