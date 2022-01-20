@@ -15,7 +15,7 @@ import com.example.structureapplication.viewholder.BaseViewHolder
 
 abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T>(
     mData: List<T>
-) : RecyclerView.Adapter<BaseViewHolder<BINDING>>(),
+) : RecyclerView.Adapter<BaseViewHolder<BINDING,T>>(),
     Filterable {
 
     var onItemClickListener: OnItemClickListener<T>? = null
@@ -155,7 +155,7 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T>(
     override fun getItemCount() = mDataDisplay.size
 
 
-    override fun onBindViewHolder(holder: BaseViewHolder<BINDING>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<BINDING,T>, position: Int) {
         if (holder.isDefaultClick()) {
             holder.itemView.setOnClickListener {
                 onItemClick(it, holder)
@@ -171,7 +171,7 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T>(
         holder.bind(holder.binder,this)
     }
 
-    private fun onItemClick(view: View, holder: BaseViewHolder<BINDING>) {
+    private fun onItemClick(view: View, holder: BaseViewHolder<BINDING,T>) {
         if (holder.adapterPosition != -1) {
             onItemClickListener?.onItemClick(
                 holder.itemView,
@@ -187,7 +187,7 @@ abstract class BaseRecyclerAdapter<BINDING : ViewDataBinding, T>(
 
     }
 
-    override fun onViewRecycled(holder: BaseViewHolder<BINDING>) {
+    override fun onViewRecycled(holder: BaseViewHolder<BINDING,T>) {
         super.onViewRecycled(holder)
         holder.onViewRecycler()
     }

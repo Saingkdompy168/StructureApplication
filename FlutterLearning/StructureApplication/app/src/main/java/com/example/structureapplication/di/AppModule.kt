@@ -2,7 +2,6 @@ package com.example.structureapplication.di
 
 import android.app.Application
 import android.os.Build
-import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.example.structureapplication.BuildConfig
 import com.example.structureapplication.api.ApiService
@@ -10,7 +9,6 @@ import com.example.structureapplication.extension.MIGRATION_2_3
 import com.example.structureapplication.localroom.database.AppDatabase
 import com.example.structureapplication.localroom.repository.MovieRepository
 import com.example.structureapplication.util.Constants
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -11,12 +11,10 @@ import com.example.structureapplication.viewholder.TestingViewHolder
 
 class TestingAdapter(mData: List<UserResponse>) :
     BaseRecyclerAdapter<ItemTestingBinding, UserResponse>(mData) {
-
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<ItemTestingBinding> {
+    ): BaseViewHolder<ItemTestingBinding, UserResponse> {
         val binder = DataBindingUtil.inflate<ItemTestingBinding>(
             LayoutInflater.from(parent.context),
             R.layout.item_testing,

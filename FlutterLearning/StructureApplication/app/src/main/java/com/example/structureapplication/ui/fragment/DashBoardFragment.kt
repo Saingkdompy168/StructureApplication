@@ -14,7 +14,10 @@ import com.example.structureapplication.R
 import com.example.structureapplication.adapter.BaseRecyclerAdapter
 import com.example.structureapplication.adapter.TestingAdapter
 import com.example.structureapplication.databinding.FragmentDashBoardBinding
+import com.example.structureapplication.extension.withFactory
+import com.example.structureapplication.factory.UserFactory
 import com.example.structureapplication.model.UserResponse
+import com.example.structureapplication.socket.AuctionSocket
 import com.example.structureapplication.util.Resource
 import com.example.structureapplication.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -22,22 +25,26 @@ import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashBoardFragment :
-    BaseFragment<FragmentDashBoardBinding, UserResponse>() {
+    BaseFragment<FragmentDashBoardBinding, UserResponse>(), AuctionSocket.SocketAuction {
 
-//    @Inject
-//    lateinit var viewModelFactory: ViewModelByDaggerFactory<UserViewModel>
+    @Inject
+    lateinit var userFactory: UserFactory
 
-    private val userViewModel: UserViewModel by viewModels()
+//    private val userViewModel: UserViewModel by viewModels()
 
-//    private val userViewModel: UserViewModel by viewModels { viewModelFactory }
+    private val userViewModel: UserViewModel by viewModels { withFactory(userFactory) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         userViewModel.getUser(2)
+
+//        AuctionSocket.getInstance(requireContext()).initSocket()
 
 //        userViewModel.userResponse.observe(viewLifecycleOwner, {
 ////            Log.d("serverData", Gson().toJson(it.data?.name))
@@ -148,5 +155,9 @@ class DashBoardFragment :
     override fun onItemClick(v: View, position: Int, data: UserResponse) {
         super.onItemClick(v, position, data)
         Log.d("dfsdfsdfdsfd", data.name)
+    }
+
+    override fun onAuctionListener(eventName: String, data: JSONObject) {
+
     }
 }
