@@ -35,6 +35,7 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(),
 
     abstract fun layoutManager(): RecyclerView.LayoutManager
     abstract fun adapter(): BaseRecyclerAdapter<*, T>
+    abstract fun getIdRecyclerView(): RecyclerView
 
     protected open fun itemDecoration(): RecyclerView.ItemDecoration? {
         return null
@@ -63,7 +64,8 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(),
 
     //RecyclerView id must be R.id.recuyclerView
     private fun initRecyclerView() {
-        mRecyclerView = view?.findViewById(R.id.recyclerView)
+//        mRecyclerView = view?.findViewById(R.id.recyclerView)
+        mRecyclerView = getIdRecyclerView()
         mLayoutManager = layoutManager()
         mAdapter = adapter()
         mAdapter?.onItemClickListener = this
@@ -85,7 +87,7 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(),
         isInit = true
     }
 
-    private fun initEventListener() {
+    open fun initEventListener() {
         mAdapter?.onLoadMoreItems = {
             loadMore()
         }
@@ -142,11 +144,12 @@ abstract class BaseFragment<DB : ViewDataBinding, T> : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
         initView()
         initActionView()
         onInitLiveData()
-        initRecyclerView()
         initEventListener()
+
 
         intentFilter = IntentFilter()
         intentFilter?.addAction(InternetBroadcastReceiver.CONNECTIVITY_ACTION)

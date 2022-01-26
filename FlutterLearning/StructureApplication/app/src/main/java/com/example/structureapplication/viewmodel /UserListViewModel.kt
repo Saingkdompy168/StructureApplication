@@ -18,6 +18,7 @@ class UserListViewModel @Inject constructor(
 
     val userResponseList = MutableLiveData<Resource<List<UserResponse>>>()
     val posmData = MutableLiveData<Resource<PosmRequestApiData>>()
+    val orderResponse = MutableLiveData<Resource<PosmRequestApiData>>()
 
 //    val userResponse: LiveData<Resource<UserResponse>>
 //        get() = _res
@@ -50,6 +51,25 @@ class UserListViewModel @Inject constructor(
                 posmData.postValue(Resource.Error(it.errorBody().toString(), null))
             }
         }
+    }
+
+    fun getOrderHistory(
+        accessToken: String, limit: Int = 100,
+        offset: Int = 0,
+        orderStatus: String? = null,
+        outletId: Int? = null
+    ) = viewModelScope.launch {
+        orderResponse.postValue(Resource.Loading())
+        userListRepository.getOrderHistoryList(accessToken, limit, offset, orderStatus, outletId)
+            .let {
+                if (it.isSuccessful) {
+                    it.body()?.let { resultResponse ->
+                        orderResponse.postValue(Resource.Success(resultResponse))
+                    }
+                } else {
+                    orderResponse.postValue(Resource.Error(it.errorBody().toString(), null))
+                }
+            }
     }
 
 }

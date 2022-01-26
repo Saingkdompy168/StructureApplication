@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.structureapplication.R
@@ -19,6 +20,7 @@ import com.example.structureapplication.factory.UserFactory
 import com.example.structureapplication.model.UserResponse
 import com.example.structureapplication.socket.AuctionSocket
 import com.example.structureapplication.util.Resource
+import com.example.structureapplication.util.SpaceItemDecoration
 import com.example.structureapplication.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -90,11 +92,12 @@ class DashBoardFragment :
                         binding.name.text = it.data?.name
                     }
                     is Resource.Error -> {
-                        Snackbar.make(
-                            binding.root,
-                            it.message.toString(),
-                            Snackbar.LENGTH_LONG
-                        ).show()
+//                        Snackbar.make(
+//                            binding.root,
+//                            it.message.toString(),
+//                            Snackbar.LENGTH_LONG
+//                        ).show()
+
                     }
                     is Resource.Loading -> {
 
@@ -154,10 +157,19 @@ class DashBoardFragment :
 
     override fun onItemClick(v: View, position: Int, data: UserResponse) {
         super.onItemClick(v, position, data)
-        Log.d("dfsdfsdfdsfd", data.name)
+        Navigation.findNavController(binding.root).navigate(R.id.orderHistoryFragment2)
     }
 
     override fun onAuctionListener(eventName: String, data: JSONObject) {
 
+    }
+
+    override fun getIdRecyclerView(): RecyclerView = binding.recyclerView
+
+
+    override fun itemDecoration(): RecyclerView.ItemDecoration? {
+        return SpaceItemDecoration(
+            itemDecorationSize()
+        )
     }
 }

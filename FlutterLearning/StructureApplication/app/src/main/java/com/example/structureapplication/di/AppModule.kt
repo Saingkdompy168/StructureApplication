@@ -52,7 +52,7 @@ object AppModule {
                 .addHeader("x-os-version", "${Build.VERSION.SDK_INT}")
                 .addHeader("x-timezone", TimeZone.getDefault().id)
                 .addHeader("x-platform", "ANDROID")
-                .addHeader("x-udid", "def4831ed735437f")
+                .addHeader("x-udid", "da4e466a92d7afac")
             val request: Request = requestBuilder.build()
             chain.proceed(request)
         }
