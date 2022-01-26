@@ -1,22 +1,10 @@
 package com.example.structureapplication
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.structureapplication.databinding.ActivityMainBinding
-import com.example.structureapplication.util.Resource
-import com.example.structureapplication.util.SingleLiveEvent
-import com.example.structureapplication.viewmodel.UserListViewModel
-import com.example.structureapplication.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

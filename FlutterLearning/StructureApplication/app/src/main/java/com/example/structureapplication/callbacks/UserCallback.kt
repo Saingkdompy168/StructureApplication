@@ -1,7 +1,5 @@
 package com.example.structureapplication.callbacks
 
-import kotlin.coroutines.suspendCoroutine
-
 class UserCallback {
     private lateinit var connect: ConnectionCallBack
 

@@ -22,4 +22,16 @@ interface ApiService {
         @Header("Authorization") accessToken: String,
     ): Response<PosmRequestApiData>
 
+    @GET("v1/sales/orders")
+    suspend fun getOrderHistoryList(
+        @Header("Authorization") accessToken: String,
+        @Query("limit") limit: Int = 100,
+        @Query("offset") offset: Int = 0,
+        @Query("orderStatus") status: String? = null,
+        @Query("outletId") outletId: Int? = null,
+        @Query("types") types: String? = "ORDER|REQUEST",
+        @Query("notInRequestMethods") notInRequestMethods: String? = "POSM"
+
+    ): Response<PosmRequestApiData>
+
 }

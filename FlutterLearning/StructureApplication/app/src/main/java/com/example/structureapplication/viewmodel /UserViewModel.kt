@@ -1,8 +1,10 @@
 package com.example.structureapplication.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import com.example.structureapplication.extension.toSingleEvent
 import com.example.structureapplication.localroom.model.MovieEntity
 import com.example.structureapplication.localroom.repository.MovieRepository
 import com.example.structureapplication.model.UserResponse
@@ -20,7 +22,7 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private var userRepository: UserRepository,
     private var movieRepository: MovieRepository
-) : ViewModel() {
+) : BaseViewModel() {
     private val _userResponse = MutableStateFlow<Resource<UserResponse>>(Resource.Loading())
 
     val userResponse: StateFlow<Resource<UserResponse>>
@@ -29,7 +31,9 @@ class UserViewModel @Inject constructor(
     private val _localData = movieRepository.getAllMovie()
 
     fun getNotesLiveData(): LiveData<List<MovieEntity>> {
-        return _localData
+        return _localData.switchMap {
+            liveData { emit(it) }.toSingleEvent()
+        }
     }
 
 

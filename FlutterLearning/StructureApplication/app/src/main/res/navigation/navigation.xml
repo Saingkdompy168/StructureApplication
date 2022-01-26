@@ -9,5 +9,13 @@
         android:id="@+id/dashBoardFragment"
         android:name="com.example.structureapplication.ui.fragment.DashBoardFragment"
         android:label="fragment_dash_board"
-        tools:layout="@layout/fragment_dash_board" />
+        tools:layout="@layout/fragment_dash_board">
+        <action
+            android:id="@+id/action_dashBoardFragment_to_orderHistoryFragment2"
+            app:destination="@id/orderHistoryFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderHistoryFragment2"
+        android:name="com.example.structureapplication.ui.fragment.OrderHistoryFragment"
+        android:label="OrderHistoryFragment" />
 </navigation>
